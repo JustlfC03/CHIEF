@@ -1,0 +1,135 @@
+task: inference
+runtime:
+  device: auto
+  seed: 42
+  deterministic: true
+  hf_cache_dir: null
+  local_files_only: false
+model:
+  debug_tiny: false
+  text_encoder_name: hfl/chinese-bert-wwm-ext
+  text_padding_side: left
+  text_do_lower_case: false
+  text_tokenizer_use_fast: false
+  decoder_name: uer/gpt2-chinese-cluecorpussmall
+  decoder_padding_side: right
+  decoder_tokenizer_use_fast: true
+  decoder_bos_from_eos: true
+  use_decoder: true
+  dim_text: 768
+  dim_image: 2048
+  dim_latent: 768
+  image_pooling: temporal_mean_flatten
+  text_pooling: mean
+  last_n_text_layers: 4
+  text_layer_weights:
+  - 0.4
+  - 0.3
+  - 0.2
+  - 0.1
+  visual:
+    dim: 128
+    image_size: 128
+    patch_size: 32
+    temporal_patch_size: 16
+    spatial_depth: 1
+    temporal_depth: 1
+    dim_head: 32
+    heads: 8
+    channels: 1
+    codebook_size: 8192
+    use_vq: true
+  num_prefix_tokens: 1
+  triage_use_generation_features: true
+data:
+  manifest: /path/to/inference_manifest.csv
+  check_files: true
+  preprocessing:
+    expected_input_shape:
+    - 32
+    - 256
+    - 256
+    strict_input_shape: true
+    output_shape:
+    - 128
+    - 128
+    - 128
+    scale: legacy_piecewise
+    interpolation: trilinear
+    align_corners: true
+  text_preprocessing:
+    terminology_map_path: data/examples/terminology_map_zh.json
+  triage_class_order:
+  - negative
+  - non-emergency-positive
+  - positive
+loader:
+  batch_size: 2
+  num_workers: 4
+  pin_memory: true
+  max_text_length: 256
+inference:
+  mode: triage
+  top_k: 200
+  ranked_report_separator: ' || '
+  max_new_tokens: 256
+  generation_strategy: top_k_sampling
+  generation_temperature: 0.8
+  generation_top_k: 50
+  labels:
+  - 急性脑梗死
+  - 硬膜下血肿
+  - 脑转移瘤
+  - 颅内动脉瘤
+  - 蛛网膜下腔出血
+  - 真菌性上颌窦炎
+  - 脑膜瘤
+  - 脱髓鞘病变
+  - 颅骨凹陷性骨折
+  - 脑积水
+  - 脑积液
+  - 脑积血
+  - 脑萎缩
+  - 脑动脉硬化
+  - 轴索损伤
+  - 筛窦炎
+  - 蝶窦炎
+  - 额窦炎
+  - 中耳乳突炎
+  - 乳突积液
+  - 胆脂瘤
+  - 脑软化灶
+  - 脑白质疏松
+  - 蛛网膜囊肿
+  - 大枕大池
+  - 眶脂体疝
+  - 中线移位
+  - 脑疝
+  - 脑肿胀
+  - 脑干受压
+  - 颅内压升高
+  - 脑沟消失
+  - 脑室受压
+  - 脑实质出血
+  - 脑脊液漏
+  - 颅内积气
+  - 脑镰下疝
+  - 脑室扩大伴受压
+  - 脑膜脑膨出
+  - 脑干出血
+  - 颅内血肿
+  - 脑挫裂伤
+  - 脑脊液外渗
+  - 脑室扩张
+  - 松果体区囊肿
+  templates:
+  - 是否存在{label}？请回答“是”或“否”：
+  - 该头颅CT是否提示{label}？请回答是/否：
+  - 影像上能否见到{label}？回答是或否：
+  yes_text: 是
+  no_text: 否
+  temperature: 2.0
+  baseline_calibration: true
+  thresholds_path: null
+  overall_top_k: 3
+  overall_threshold: 0.5

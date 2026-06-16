@@ -1,0 +1,97 @@
+task: report_generation
+runtime:
+  device: auto
+  seed: 42
+  deterministic: false
+  hf_cache_dir: null
+  local_files_only: false
+  output_dir: outputs/report_generation
+model:
+  debug_tiny: false
+  text_encoder_name: hfl/chinese-bert-wwm-ext
+  text_padding_side: left
+  text_do_lower_case: false
+  text_tokenizer_use_fast: false
+  decoder_name: uer/gpt2-chinese-cluecorpussmall
+  decoder_padding_side: right
+  decoder_tokenizer_use_fast: true
+  decoder_bos_from_eos: true
+  use_decoder: true
+  dim_text: 768
+  dim_image: 2048
+  dim_latent: 768
+  image_pooling: temporal_mean_flatten
+  text_pooling: mean
+  last_n_text_layers: 4
+  text_layer_weights:
+  - 0.4
+  - 0.3
+  - 0.2
+  - 0.1
+  num_prefix_tokens: 1
+  visual:
+    dim: 128
+    image_size: 128
+    patch_size: 32
+    temporal_patch_size: 16
+    spatial_depth: 1
+    temporal_depth: 1
+    dim_head: 32
+    heads: 8
+    channels: 1
+    codebook_size: 8192
+    use_vq: true
+data:
+  manifest: /path/to/report_generation_manifest.csv
+  train_split: train
+  val_split: val
+  require_val_split: true
+  check_files: true
+  preprocessing:
+    expected_input_shape:
+    - 32
+    - 256
+    - 256
+    strict_input_shape: true
+    output_shape:
+    - 128
+    - 128
+    - 128
+    scale: legacy_piecewise
+    interpolation: trilinear
+    align_corners: true
+  text_preprocessing:
+    terminology_map_path: data/examples/terminology_map_zh.json
+  triage_class_order:
+  - negative
+  - non-emergency-positive
+  - positive
+loader:
+  batch_size: 64
+  num_workers: 16
+  pin_memory: true
+  persistent_workers: true
+  max_decoder_length: 256
+optimizer:
+  name: adamw
+  lr: 1.0e-05
+  weight_decay: 0.01
+scheduler:
+  name: cosine
+  warmup_steps: 500
+training:
+  epochs: 30
+  gradient_accumulation_steps: 1
+  amp: true
+  amp_dtype: float16
+  max_grad_norm: 1.0
+  log_every: 20
+  save_every_epochs: 1
+  trainable_modules:
+  - visual_transformer
+  - to_visual_latent
+  - image_feat_ln
+  selection_metric: generation
+  selection_mode: min
+loss:
+  generation_weight: 2.0

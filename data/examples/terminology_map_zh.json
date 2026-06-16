@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "description": "Optional project-specific terminology normalization. Add only radiologist-reviewed mappings.",
+  "mapping": {}
+}

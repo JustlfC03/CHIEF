@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "name": "CHIEF zero-shot abnormality label set",
+  "language": "zh-CN",
+  "label_count": 45,
+  "provenance": "Ordered 45-label set used for the internal report-derived zero-shot abnormality evaluation described in the manuscript.",
+  "labels": [
+    {
+      "id": "label_001",
+      "name_zh": "急性脑梗死"
+    },
+    {
+      "id": "label_002",
+      "name_zh": "硬膜下血肿"
+    },
+    {
+      "id": "label_003",
+      "name_zh": "脑转移瘤"
+    },
+    {
+      "id": "label_004",
+      "name_zh": "颅内动脉瘤"
+    },
+    {
+      "id": "label_005",
+      "name_zh": "蛛网膜下腔出血"
+    },
+    {
+      "id": "label_006",
+      "name_zh": "真菌性上颌窦炎"
+    },
+    {
+      "id": "label_007",
+      "name_zh": "脑膜瘤"
+    },
+    {
+      "id": "label_008",
+      "name_zh": "脱髓鞘病变"
+    },
+    {
+      "id": "label_009",
+      "name_zh": "颅骨凹陷性骨折"
+    },
+    {
+      "id": "label_010",
+      "name_zh": "脑积水"
+    },
+    {
+      "id": "label_011",
+      "name_zh": "脑积液"
+    },
+    {
+      "id": "label_012",
+      "name_zh": "脑积血"
+    },
+    {
+      "id": "label_013",
+      "name_zh": "脑萎缩"
+    },
+    {
+      "id": "label_014",
+      "name_zh": "脑动脉硬化"
+    },
+    {
+      "id": "label_015",
+      "name_zh": "轴索损伤"
+    },
+    {
+      "id": "label_016",
+      "name_zh": "筛窦炎"
+    },
+    {
+      "id": "label_017",
+      "name_zh": "蝶窦炎"
+    },
+    {
+      "id": "label_018",
+      "name_zh": "额窦炎"
+    },
+    {
+      "id": "label_019",
+      "name_zh": "中耳乳突炎"
+    },
+    {
+      "id": "label_020",
+      "name_zh": "乳突积液"
+    },
+    {
+      "id": "label_021",
+      "name_zh": "胆脂瘤"
+    },
+    {
+      "id": "label_022",
+      "name_zh": "脑软化灶"
+    },
+    {
+      "id": "label_023",
+      "name_zh": "脑白质疏松"
+    },
+    {
+      "id": "label_024",
+      "name_zh": "蛛网膜囊肿"
+    },
+    {
+      "id": "label_025",
+      "name_zh": "大枕大池"
+    },
+    {
+      "id": "label_026",
+      "name_zh": "眶脂体疝"
+    },
+    {
+      "id": "label_027",
+      "name_zh": "中线移位"
+    },
+    {
+      "id": "label_028",
+      "name_zh": "脑疝"
+    },
+    {
+      "id": "label_029",
+      "name_zh": "脑肿胀"
+    },
+    {
+      "id": "label_030",
+      "name_zh": "脑干受压"
+    },
+    {
+      "id": "label_031",
+      "name_zh": "颅内压升高"
+    },
+    {
+      "id": "label_032",
+      "name_zh": "脑沟消失"
+    },
+    {
+      "id": "label_033",
+      "name_zh": "脑室受压"
+    },
+    {
+      "id": "label_034",
+      "name_zh": "脑实质出血"
+    },
+    {
+      "id": "label_035",
+      "name_zh": "脑脊液漏"
+    },
+    {
+      "id": "label_036",
+      "name_zh": "颅内积气"
+    },
+    {
+      "id": "label_037",
+      "name_zh": "脑镰下疝"
+    },
+    {
+      "id": "label_038",
+      "name_zh": "脑室扩大伴受压"
+    },
+    {
+      "id": "label_039",
+      "name_zh": "脑膜脑膨出"
+    },
+    {
+      "id": "label_040",
+      "name_zh": "脑干出血"
+    },
+    {
+      "id": "label_041",
+      "name_zh": "颅内血肿"
+    },
+    {
+      "id": "label_042",
+      "name_zh": "脑挫裂伤"
+    },
+    {
+      "id": "label_043",
+      "name_zh": "脑脊液外渗"
+    },
+    {
+      "id": "label_044",
+      "name_zh": "脑室扩张"
+    },
+    {
+      "id": "label_045",
+      "name_zh": "松果体区囊肿"
+    }
+  ]
+}

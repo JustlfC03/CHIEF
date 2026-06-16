@@ -1,0 +1,87 @@
+task: cq500
+runtime:
+  device: auto
+  seed: 42
+  deterministic: false
+  hf_cache_dir: null
+  local_files_only: false
+  output_dir: outputs/cq500
+model:
+  debug_tiny: false
+  text_encoder_name: hfl/chinese-bert-wwm-ext
+  text_padding_side: left
+  text_do_lower_case: false
+  text_tokenizer_use_fast: false
+  use_decoder: false
+  dim_text: 768
+  dim_image: 2048
+  dim_latent: 768
+  image_pooling: temporal_mean_flatten
+  text_pooling: mean
+  last_n_text_layers: 4
+  cq500_labels: 14
+  visual:
+    dim: 128
+    image_size: 128
+    patch_size: 32
+    temporal_patch_size: 16
+    spatial_depth: 1
+    temporal_depth: 1
+    dim_head: 32
+    heads: 8
+    channels: 1
+    codebook_size: 8192
+    use_vq: true
+data:
+  manifest: /path/to/cq500_manifest.csv
+  train_split: train
+  val_split: val
+  require_val_split: true
+  check_files: true
+  preprocessing:
+    expected_input_shape:
+    - 32
+    - 256
+    - 256
+    strict_input_shape: true
+    output_shape:
+    - 128
+    - 128
+    - 128
+    scale: legacy_piecewise
+    interpolation: trilinear
+    align_corners: true
+  text_preprocessing:
+    terminology_map_path: data/examples/terminology_map_zh.json
+  triage_class_order:
+  - negative
+  - non-emergency-positive
+  - positive
+loader:
+  batch_size: 32
+  num_workers: 16
+  pin_memory: true
+  persistent_workers: true
+optimizer:
+  name: adamw
+  lr: 0.0005
+  weight_decay: 0.01
+scheduler:
+  name: cosine
+  warmup_steps: 100
+training:
+  init_bias_from_prior: true
+  trainable_modules:
+  - cq500_probe
+  epochs: 40
+  amp: true
+  max_grad_norm: 1.0
+  log_every: 20
+  save_every_epochs: 1
+  selection_metric: macro_auroc
+  selection_mode: max
+loss:
+  gamma_neg: 4.0
+  gamma_pos: 1.0
+  clip: 0.05
+  hierarchy_weight: 0.2
