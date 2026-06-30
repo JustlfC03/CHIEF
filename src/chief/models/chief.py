@@ -423,7 +423,12 @@ def build_model_and_tokenizers(cfg: dict[str, Any]) -> tuple[ChiefModel, Any, An
             if decoder_tokenizer.pad_token_id is None:
                 decoder_tokenizer.add_special_tokens({"pad_token": "[PAD]"})
             if decoder_tokenizer.eos_token_id is None:
-                raise ValueError("Decoder tokenizer must define eos_token_id")
+                if decoder_tokenizer.sep_token_id is not None:
+                    decoder_tokenizer.eos_token = decoder_tokenizer.sep_token
+                else:
+                    raise ValueError(
+                        "Decoder tokenizer must define eos_token_id or sep_token_id"
+                    )
             if bool(model_cfg.get("decoder_bos_from_eos", True)):
                 decoder_tokenizer.bos_token = decoder_tokenizer.eos_token
             elif decoder_tokenizer.bos_token_id is None:
@@ -431,6 +436,9 @@ def build_model_and_tokenizers(cfg: dict[str, Any]) -> tuple[ChiefModel, Any, An
             decoder = load_hf_decoder(decoder_name, cache_dir, local_only)
             if len(decoder_tokenizer) != decoder.config.vocab_size:
                 decoder.resize_token_embeddings(len(decoder_tokenizer))
+            decoder.config.pad_token_id = decoder_tokenizer.pad_token_id
+            decoder.config.bos_token_id = decoder_tokenizer.bos_token_id
+            decoder.config.eos_token_id = decoder_tokenizer.eos_token_id
 
     dim_text = int(model_cfg.get("dim_text", _hidden_size(text_encoder)))
     decoder_bos_token_id = (

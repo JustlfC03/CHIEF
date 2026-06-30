@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import Any
 
 import torch
@@ -14,7 +15,7 @@ from chief.models.losses import AsymmetricLossMultiLabel, hierarchy_consistency_
 def _move_nested(value: Any, device: torch.device) -> Any:
     if isinstance(value, Tensor):
         return value.to(device, non_blocking=True)
-    if isinstance(value, dict):
+    if isinstance(value, Mapping):
         return {key: _move_nested(item, device) for key, item in value.items()}
     return value
 
